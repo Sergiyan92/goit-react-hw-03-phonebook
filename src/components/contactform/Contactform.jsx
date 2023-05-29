@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import css from './Phonebook.module.css';
+import css from './Contactform.module.css';
 
 export class ContactForm extends Component {
   state = {
@@ -73,51 +73,6 @@ export class ContactForm extends Component {
   }
 }
 
-export const ContactList = ({ contacts, deleteContact }) => (
-  <ul className={css.list}>
-    {contacts.map(contact => (
-      <li key={contact.id} className={css.item}>
-        {contact.name} - {contact.number}
-        <button
-          className={css.btnDelete}
-          onClick={() => deleteContact(contact.id)}
-        >
-          Delete
-        </button>
-      </li>
-    ))}
-  </ul>
-);
-
-export const Filter = ({ filter, handleFilterChange }) => (
-  <>
-    <label className={css.labelSearch}>Find contacts by name</label>
-    <input
-      className={css.inputSearch}
-      type="text"
-      name="filter"
-      placeholder="Search"
-      value={filter}
-      onChange={handleFilterChange}
-    />
-  </>
-);
-
 ContactForm.propTypes = {
   addContact: PropTypes.func.isRequired,
-};
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      number: PropTypes.string,
-    })
-  ),
-  filter: PropTypes.string,
-  handleFilterChange: PropTypes.func,
-};
-Filter.propTypes = {
-  filter: PropTypes.string,
-  handleFilterChange: PropTypes.func,
 };

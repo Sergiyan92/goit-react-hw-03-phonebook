@@ -1,9 +1,8 @@
-import { ContactForm } from './Phonebook';
-import { Filter } from './Phonebook';
-import { ContactList } from './Phonebook';
+import { ContactForm } from './contactform/Contactform';
+import { Filter } from './filter/Filter';
+import { ContactList } from './contactlist/Contactlist';
 import React, { Component } from 'react';
 import css from './Phonebook.module.css';
-import PropTypes from 'prop-types';
 
 export class App extends Component {
   state = {
@@ -55,13 +54,3 @@ export class App extends Component {
     );
   }
 }
-App.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-  filter: PropTypes.string,
-};
