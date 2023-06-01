@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import css from './Contactform.module.css';
@@ -9,38 +8,18 @@ export class ContactForm extends Component {
     number: '',
   };
 
-  handleNameChange = event => {
-    this.setState({ name: event.target.value });
-  };
-
-  handleNumberChange = event => {
-    this.setState({ number: event.target.value });
+  handleChange = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    const { name, number } = this.state;
-    const { contacts, addContact } = this.props;
-    const existingContact = contacts.some(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
-    );
-    if (existingContact) {
-      alert(`${name} is already in the phonebook.`);
-    } else {
-      if (name.trim() !== '' && number.trim() !== '') {
-        const newContact = {
-          id: nanoid(),
-          name: name.trim(),
-          number: number.trim(),
-        };
-        addContact(newContact);
-        this.setState({ name: '', number: '' });
-      }
-    }
+    this.props.addContact(this.state);
+    this.setState({ name: '', number: '' });
   };
 
   render() {
-    const { name, number } = this.state;
     return (
       <form onSubmit={this.handleSubmit} className={css.contactForm}>
         <label className={css.label}>Name</label>
@@ -51,8 +30,8 @@ export class ContactForm extends Component {
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
-          value={name}
-          onChange={this.handleNameChange}
+          value={this.state.name}
+          onChange={this.handleChange}
         />
         <label className={css.label}>Phone</label>
         <input
@@ -62,8 +41,8 @@ export class ContactForm extends Component {
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
-          value={number}
-          onChange={this.handleNumberChange}
+          value={this.state.number}
+          onChange={this.handleChange}
         />
         <button className={css.button} type="submit">
           Add Contact

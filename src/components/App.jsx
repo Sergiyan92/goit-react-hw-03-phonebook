@@ -1,6 +1,7 @@
 import { ContactForm } from './contactform/Contactform';
 import { Filter } from './filter/Filter';
 import { ContactList } from './contactlist/Contactlist';
+import { nanoid } from 'nanoid';
 import React, { Component } from 'react';
 import css from './Phonebook.module.css';
 
@@ -27,7 +28,22 @@ export class App extends Component {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
-  addContact = newContact => {
+  addContact = ({ name, number }) => {
+    const newContact = {
+      id: `id-${nanoid()}`,
+      name,
+      number,
+    };
+
+    const isExist = this.state.contacts.some(
+      el => el.name.toLowerCase() === name.toLowerCase() || el.number === number
+    );
+
+    if (isExist) {
+      alert('Contact already exists');
+      return;
+    }
+
     this.setState(prevState => ({
       contacts: [...prevState.contacts, newContact],
     }));
